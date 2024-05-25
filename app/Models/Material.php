@@ -14,4 +14,5 @@ class Material extends Model
         'name', 
         'basic'
     ];
+    
 }

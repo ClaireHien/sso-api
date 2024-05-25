@@ -13,4 +13,14 @@ class Statistic extends Model
     protected $fillable = [
         'label'
     ];
+    
+    public function skill()
+    {
+        return $this->belongsToMany(Skill::class);
+    }
+    
+    public function tree()
+    {
+        return $this->belongsToMany(Tree::class);
+    }
 }

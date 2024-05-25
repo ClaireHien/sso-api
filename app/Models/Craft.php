@@ -12,4 +12,5 @@ class Craft extends Model
     protected $fillable = [
         'name'
     ];
+    
 }

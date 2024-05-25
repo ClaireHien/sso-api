@@ -15,4 +15,14 @@ class Status extends Model
         'description',
         'healing'
     ];
+    
+    public function tree()
+    {
+        return $this->belongsToMany(Tree::class);
+    }
+    
+    public function skill()
+    {
+        return $this->belongsToMany(Skill::class);
+    }
 }

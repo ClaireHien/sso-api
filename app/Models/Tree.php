@@ -32,4 +32,9 @@ class Tree extends Model
     public function range(){
         return $this->belongsTo(Range::class);
     }
+    
+    public function stereotype()
+    {
+        return $this->belongsToMany(Stereotype::class);
+    }
 }
