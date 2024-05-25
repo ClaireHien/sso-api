@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TypeTree extends Model
 {
     use HasFactory;
+     
+    public $timestamps = false;
+    protected $fillable = [
+        'label'
+    ];
 }

@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Skill extends Model
 {
     use HasFactory;
+     
+    public $timestamps = false;
+    protected $fillable = [
+        'name',
+        'description',
+        'upgrade',
+        'ultimate_upgrade'
+    ];
 }

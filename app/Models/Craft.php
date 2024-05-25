@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Craft extends Model
 {
-    use HasFactory;
+    use HasFactory; 
+    public $timestamps = false;
+    protected $fillable = [
+        'name'
+    ];
 }

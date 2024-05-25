@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class FightSkill extends Model
 {
     use HasFactory;
+     
+    public $timestamps = false;
+    protected $fillable = [
+        'name', 
+        'description',
+        'upgrade'
+    ];
 }

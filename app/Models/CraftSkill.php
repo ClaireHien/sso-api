@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class CraftSkill extends Model
 {
     use HasFactory;
+     
+    public $timestamps = false;
+    protected $fillable = [
+        'name', 
+        'description'
+    ];
 }

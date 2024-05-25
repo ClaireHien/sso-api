@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TypeDamage extends Model
 {
     use HasFactory;
+     
+    public $timestamps = false;
+    protected $fillable = [
+        'label'
+    ];
 }
