@@ -14,4 +14,8 @@ class CraftSkill extends Model
         'name', 
         'description'
     ];
+    
+    public function craft(){
+        return $this->belongsTo(Craft::class);
+    }
 }

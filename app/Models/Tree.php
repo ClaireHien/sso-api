@@ -20,4 +20,16 @@ class Tree extends Model
         'passive_innate',
         'passive_innate_description'
     ];
+    
+    public function typeTree(){
+        return $this->belongsTo(TypeTree::class);
+    }
+    
+    public function typeDamage(){
+        return $this->belongsTo(TypeDamage::class);
+    }
+    
+    public function range(){
+        return $this->belongsTo(Range::class);
+    }
 }

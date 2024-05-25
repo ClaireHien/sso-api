@@ -16,4 +16,12 @@ class Skill extends Model
         'upgrade',
         'ultimate_upgrade'
     ];
+    
+    public function TypeSkill(){
+        return $this->belongsTo(TypeSkill::class);
+    }
+    
+    public function tree(){
+        return $this->belongsTo(Tree::class);
+    }
 }

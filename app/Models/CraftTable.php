@@ -17,4 +17,12 @@ class CraftTable extends Model
         'super',
         'excellent'
     ];
+    
+    public function craft(){
+        return $this->belongsTo(Craft::class);
+    }
+    
+    public function material(){
+        return $this->belongsTo(Material::class);
+    }
 }
