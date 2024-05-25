@@ -9,16 +9,16 @@ class StatusTree extends Model
 {
     use HasFactory;
     
-    protected $table ="stereotype_tree";
+    protected $table ="status_tree";
     
     public $timestamps = false;
     
-    protected $fillable = ['tree_id', 'stereotype_id', 'value'];
+    protected $fillable = ['tree_id', 'status_id', 'value'];
     
     public function tree(){
         return $this->belongsTo(Tree::class);
     }
-    public function stereotype(){
-        return $this->belongsTo(Stereotype::class);
+    public function status(){
+        return $this->belongsTo(Status::class);
     }
 }

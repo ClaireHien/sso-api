@@ -37,4 +37,8 @@ class Tree extends Model
     {
         return $this->belongsToMany(Stereotype::class);
     }
+    public function status()
+    {
+        return $this->belongsToMany(Status::class);
+    }
 }
