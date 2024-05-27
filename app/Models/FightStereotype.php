@@ -9,7 +9,8 @@ class FightStereotype extends Model
 {
     use HasFactory;
     
-    protected $table ="fight_stereotype";
+    protected $table ="fight_skill_stereotype";
+    // penser à renommer manuellement sur la BDD en prod 
     
     public $timestamps = false;
     

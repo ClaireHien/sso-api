@@ -10,6 +10,6 @@ class NeutralController extends Controller
 {
     public function index()
     {
-        return Neutral::get();
+        return NeutralSkill::get();
     }
 }

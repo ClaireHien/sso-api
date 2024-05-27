@@ -13,6 +13,6 @@ class FightSkillController extends Controller
     
     public function index()
     {
-        return FightSkill::with('stereotype')->get();
+        return FightSkill::with('stereotypes')->get();
     }
 }

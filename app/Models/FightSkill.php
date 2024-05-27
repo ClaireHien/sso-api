@@ -16,7 +16,7 @@ class FightSkill extends Model
         'upgrade'
     ];
 
-    public function stereotype()
+    public function stereotypes()
     { 
         return $this->belongsToMany(Stereotype::class);
     }
