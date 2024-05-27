@@ -11,7 +11,9 @@ class Statistic extends Model
      
     public $timestamps = false;
     protected $fillable = [
-        'label'
+        'label',
+        'type',
+        'abreviation'
     ];
     
     public function skill()
