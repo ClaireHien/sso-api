@@ -24,12 +24,12 @@ class Skill extends Model
     public function tree(){
         return $this->belongsTo(Tree::class);
     }
-    public function status()
-    {
+    public function statuses(){
         return $this->belongsToMany(Status::class);
     }
-    public function statistic()
-    {
+    
+    
+    public function statistics(){
         return $this->belongsToMany(Statistic::class);
     }
 }

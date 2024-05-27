@@ -23,14 +23,14 @@ class TreeController extends Controller
     
     public function weapon()
     {
-        return Tree::with('TypeDamage','TypeTree', 'Skill','TypeSkill','Stereotype','Range','Status','Statistic')
-        ->where('typeTree', 1)
+        return Tree::with('TypeDamage','TypeTree', 'Skills','Skills.TypeSkill', 'Skills.Statistics', 'Skills.Statuses','Range','Statistics','Stereotypes','Statuses')
+        ->where('type_tree_id', 1)
         ->get();
     }
     public function magic()
     {
-        return Tree::with('TypeDamage','TypeTree', 'Skill','TypeSkill','Stereotype','Range','Status','Statistic')
-        ->where('typeTree', 1)
+        return Tree::with('TypeDamage','TypeTree', 'Skills','Skills.TypeSkill', 'Skills.Statistics', 'Skills.Statuses','Range','Statistics','Stereotypes','Statuses')
+        ->where('type_tree_id', 2)
         ->get();
     }
 }

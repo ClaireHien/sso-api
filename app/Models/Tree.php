@@ -18,7 +18,10 @@ class Tree extends Model
         'ultimate_skill',
         'ultimate_skill_description',
         'passive_innate',
-        'passive_innate_description'
+        'passive_innate_description',
+        'range_id',
+        'type_damage_id',
+        'type_tree_id',
     ];
     
     public function typeTree(){
@@ -33,12 +36,18 @@ class Tree extends Model
         return $this->belongsTo(Range::class);
     }
     
-    public function stereotype()
-    {
+    public function stereotypes(){
         return $this->belongsToMany(Stereotype::class);
     }
-    public function status()
-    {
+    public function skills(){
+        return $this->HasMany(Skill::class);
+    }
+    public function statuses(){
         return $this->belongsToMany(Status::class);
+    }
+    
+    
+    public function statistics(){
+        return $this->belongsToMany(Statistic::class);
     }
 }
