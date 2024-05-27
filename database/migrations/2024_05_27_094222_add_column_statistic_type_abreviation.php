@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::table('statistics', function (Blueprint $table) {
             $table->integer('type');
 
-            $table->string('abbreviation');
+            $table->string('abreviation');
         });
     }
     

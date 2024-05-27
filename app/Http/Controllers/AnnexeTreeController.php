@@ -25,13 +25,13 @@ class AnnexeTreeController extends Controller
     }
     public function statisticPhysic()
     {
-        return statisticPhysic::
+        return Statistic::
         where('type', 1)
         ->get();
     }
     public function statisticMagic()
     {
-        return statisticPhysic::
+        return Statistic::
         where('type', 2)
         ->get();
     }

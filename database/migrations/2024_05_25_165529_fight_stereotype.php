@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('fight_stereotype', function (Blueprint $table) {
+        Schema::create('fight_skill_stereotype', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\FightSkill::class)->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\Stereotype::class)->cascadeOnDelete();
@@ -17,6 +17,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('fight_stereotype');
+        Schema::dropIfExists('fight_skill_stereotype');
     }
 };
