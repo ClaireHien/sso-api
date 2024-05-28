@@ -13,7 +13,11 @@ class CraftController extends Controller
 {
     public function craftTable()
     {
-        return CraftTable::with('craft','material')->get();
+        return CraftTable::with('craft','material')
+        ->whereHas('material', function ($query) {
+            $query->where('display', 1);
+        })
+        ->get();
     }
     
     public function craftSkill()
