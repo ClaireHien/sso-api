@@ -20,7 +20,7 @@ return new class extends Migration
         Schema::table('statistics', function (Blueprint $table) {
             $table->dropColumn('type');
 
-            $table->dropColumn('abbreviation');
+            $table->dropColumn('abreviation');
         });
     }
 };

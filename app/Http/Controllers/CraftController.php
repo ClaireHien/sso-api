@@ -9,7 +9,6 @@ use App\Models\CraftTable;
 use App\Models\Material;
 use App\Models\CraftSkill;
 
- 
 class CraftController extends Controller
 {
     public function craftTable()
