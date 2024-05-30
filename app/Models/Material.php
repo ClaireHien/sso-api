@@ -12,7 +12,17 @@ class Material extends Model
     public $timestamps = false;
     protected $fillable = [
         'name', 
-        'basic'
+        'basic', 
+        'description', 
+        'display', 
+        'price'
     ];
     
+    public function typeMaterial(){
+        return $this->belongsTo(TypeMaterial::class);
+    }
+    
+    public function materialTables(){
+        return $this->hasOne(MaterialTable::class);
+    }
 }

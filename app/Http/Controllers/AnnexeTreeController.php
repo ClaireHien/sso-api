@@ -5,6 +5,7 @@ use App\Models\Range;
 use App\Models\Stereotype;
 use App\Models\TypeDamage;
 use App\Models\Statistic;
+use App\Models\Status;
 
 use Illuminate\Http\Request;
 
@@ -22,6 +23,10 @@ class AnnexeTreeController extends Controller
     public function typeDamage()
     {
         return typeDamage::get();
+    }
+    public function status()
+    {
+        return Status::get();
     }
     public function statisticPhysic()
     {

@@ -8,6 +8,7 @@ use App\Models\Craft;
 use App\Models\CraftTable;
 use App\Models\Material;
 use App\Models\CraftSkill;
+use App\Models\MaterialTable;
 
 class CraftController extends Controller
 {
@@ -23,5 +24,12 @@ class CraftController extends Controller
     public function craftSkill()
     {
         return CraftSkill::with('craft')->get();
+    }
+
+    public function material()
+    {
+        return Material::with('typeMaterial','materialTables')
+        ->where('display', 1)
+        ->get();
     }
 }

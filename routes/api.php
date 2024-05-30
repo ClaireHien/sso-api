@@ -15,9 +15,11 @@ Route::get('/neutral', [NeutralController::class, 'index']);
 Route::get('/fight', [FightSkillController::class, 'index']);
 Route::get('/craft-skill', [CraftController::class, 'craftSkill']);
 Route::get('/craft', [CraftController::class, 'craftTable']);
+Route::get('/material', [CraftController::class, 'material']);
 
 Route::get('/range', [AnnexeTreeController::class, 'range']);
 Route::get('/stereotype', [AnnexeTreeController::class, 'stereotype']);
+Route::get('/status', [AnnexeTreeController::class, 'status']);
 Route::get('/type-damage', [AnnexeTreeController::class, 'typeDamage']);
 Route::get('/statistic-physic', [AnnexeTreeController::class, 'statisticPhysic']);
 Route::get('/statistic-magic', [AnnexeTreeController::class, 'statisticMagic']);
