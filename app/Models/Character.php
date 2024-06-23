@@ -54,6 +54,9 @@ class Character extends Model
         'jewelry2_description',
         'stone2_name',
         'stone2_description',
+        'user_id',
+        'group_id',
+        'spirit_id'
     ];
     
     public function user(){
