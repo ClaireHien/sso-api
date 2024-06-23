@@ -20,4 +20,8 @@ class World extends Model
     {
         return $this->hasMany(Group::class);
     }
+    public function spirits()
+    {
+        return $this->hasMany(Spirit::class);
+    }
 }
