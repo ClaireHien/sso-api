@@ -50,4 +50,8 @@ class Tree extends Model
     public function statistics(){
         return $this->belongsToMany(Statistic::class);
     }
+    public function characters()
+    {
+        return $this->belongsToMany(Character::class)->withPivot('innate', 'ultimate_unlock');
+    }
 }

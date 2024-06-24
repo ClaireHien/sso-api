@@ -18,4 +18,7 @@ class Group extends Model
     {
         return $this->hasMany(Character::class);
     }
+    public function world(){
+        return $this->belongsTo(World::class);
+    }
 }

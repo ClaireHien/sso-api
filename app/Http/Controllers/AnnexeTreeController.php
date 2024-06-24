@@ -6,6 +6,8 @@ use App\Models\Stereotype;
 use App\Models\TypeDamage;
 use App\Models\Statistic;
 use App\Models\Status;
+use App\Models\Group;
+use App\Models\Spirit;
 
 use Illuminate\Http\Request;
 
@@ -39,5 +41,9 @@ class AnnexeTreeController extends Controller
         return Statistic::
         where('type', 2)
         ->get();
+    }
+    public function group()
+    {
+        return Group::with('world.spirits')->get();
     }
 }

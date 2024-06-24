@@ -25,4 +25,9 @@ class Statistic extends Model
     {
         return $this->belongsToMany(Tree::class);
     }
+    
+    public function characters()
+    {
+        return $this->belongsToMany(Character::class)->withPivot('value', 'bonus');
+    }
 }

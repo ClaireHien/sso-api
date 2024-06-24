@@ -56,7 +56,7 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        return User::with('characters')->find($id);
+        return User::with('characters.group.world')->find($id);
 
     }
 

@@ -68,4 +68,38 @@ class Character extends Model
     public function spirit(){
         return $this->belongsTo(Spirit::class);
     }
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
+    }
+    public function fight_skills()
+    {
+        return $this->belongsToMany(FightSkill::class);
+    }
+    public function items()
+    {
+        return $this->belongsToMany(Item::class);
+    }
+    public function materials()
+    {
+        return $this->belongsToMany(Material::class);
+    }
+    public function neutral_skills()
+    {
+        return $this->belongsToMany(NeutralSkill::class);
+    }
+    
+    public function statistics()
+    {
+        return $this->belongsToMany(Statistic::class)->withPivot('value', 'bonus');
+    }
+    
+    public function statuses()
+    {
+        return $this->belongsToMany(Status::class);
+    }
+    public function trees()
+    {
+        return $this->belongsToMany(Tree::class)->withPivot('innate', 'ultimate_unlock');
+    }
 }
