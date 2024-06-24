@@ -30,6 +30,10 @@ Route::get('/statistic-magic', [AnnexeTreeController::class, 'statisticMagic']);
 Route::get('/spirit/{worldId}', [AnnexeTreeController::class, 'spirit']);
 Route::get('/world',[WorldController::class,'index']);
 
+Route::get('/login',[UserController::class,'connexion'])->name('login');
+Route::post('/login',[UserController::class,'login']);
+Route::post('/register',[UserController::class,'store']);
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('/character',[CharacterController::class,'index']);
@@ -38,7 +42,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/character/{id}',[CharacterController::class,'update']);
     Route::delete('/character/{id}',[CharacterController::class,'destroy']);
     
-    Route::post('/user',[UserController::class,'store']);
     Route::get('/user/{id}',[UserController::class,'show']);
     Route::put('/user/{id}',[UserController::class,'update']);
 
