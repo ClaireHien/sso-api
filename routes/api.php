@@ -42,7 +42,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/character/{id}',[CharacterController::class,'show']);
 
     Route::get('/character',[CharacterController::class,'index']);
-    Route::put('/character/{id}',[CharacterController::class,'update']);
+    Route::put('/character/{id}/global',[CharacterController::class,'global']);
+    Route::put('/character/{id}/spirit',[CharacterController::class,'spirit']);
+    Route::put('/character/{id}/addXP',[CharacterController::class,'addXP']);
+    Route::put('/character/{id}/dead',[CharacterController::class,'dead']);
+
     Route::delete('/character/{id}',[CharacterController::class,'destroy']);
     
     Route::get('/user/{id}',[UserController::class,'show']);

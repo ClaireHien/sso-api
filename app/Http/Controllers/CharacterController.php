@@ -82,4 +82,76 @@ class CharacterController extends Controller
         return Character::with('user','group.world','spirit','skills', 'fight_skills','items','materials','neutral_skills','statistics','statuses','trees')->find($id);
     }
 
+    public function global(Request $request, $id)
+    {
+        
+        $character = Character::find($id);
+
+        if (!$character) {
+            return response()->json(['message' => 'Non trouvé'], 404);
+        }
+
+        $character->name = $request->input('name');
+        $character->image = $request->input('image');
+        $character->description = $request->input('description');
+
+        $character->update();
+        return response()->json(['message' => 'Mis à jour']);
+    }
+    public function spirit(Request $request, $id)
+    {
+        
+        $character = Character::find($id);
+
+        if (!$character) {
+            return response()->json(['message' => 'Non trouvé'], 404);
+        }
+
+        $character->affinity = $request->input('affinity');
+        $character->spirit_level = $request->input('spirit_level');
+
+        $character->update();
+        return response()->json(['message' => 'Mis à jour']);
+    }
+    public function addXP(Request $request, $id)
+    {
+        
+        $character = Character::find($id);
+
+        if (!$character) {
+            return response()->json(['message' => 'Non trouvé'], 404);
+        }
+
+        
+        $newXP = $character->xp + $request->input('xp');
+
+        $additionalLevels = 0;
+        $remainingXP = $newXP;
+        if($newXP > 0){
+            $additionalLevels = intdiv($newXP, 10);
+            $remainingXP = $newXP % 10;
+        };
+
+        $character->level += $additionalLevels;
+        $character->pc += $additionalLevels;
+        $character->xp = $remainingXP;
+
+        $character->update();
+
+        return response()->json(['message' => $character->xp, "xp"=> $request->input('xp')]);
+    }
+    public function dead($id)
+    {
+        
+        $character = Character::find($id);
+
+        if (!$character) {
+            return response()->json(['message' => 'Non trouvé'], 404);
+        }
+
+        $character->xp -= 5;
+        $character->update();
+
+        return response()->json(['message' => 'Mis à jour']);
+    }
 }
