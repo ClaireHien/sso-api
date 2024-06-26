@@ -79,7 +79,7 @@ class CharacterController extends Controller
     
     public function show($id)
     {
-        return Character::with('user','group.world','spirit','skills', 'fight_skills','items','materials','neutral_skills','statistics','statuses','trees')->find($id);
+        return Character::with('user','group.world','spirit','skills', 'fight_skills','items','materials','neutral_skills','statistics','statuses','trees.range','trees.typeDamage', 'trees.skills.TypeSkill', 'craftSkills','personnalSkills')->find($id);
     }
 
     public function global(Request $request, $id)

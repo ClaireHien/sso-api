@@ -102,4 +102,12 @@ class Character extends Model
     {
         return $this->belongsToMany(Tree::class)->withPivot('innate', 'ultimate_unlock');
     }
+    public function craftSkills()
+    {
+        return $this->belongsToMany(CraftSkill::class);
+    }
+    public function personnalSkills()
+    {
+        return $this->belongsToMany(PersonnalSkill::class);
+    }
 }
