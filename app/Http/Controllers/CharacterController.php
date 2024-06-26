@@ -86,10 +86,8 @@ class CharacterController extends Controller
     {
         
         $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
 
-        if (!$character) {
-            return response()->json(['message' => 'Non trouvé'], 404);
-        }
 
         $character->name = $request->input('name');
         $character->image = $request->input('image');
@@ -102,10 +100,8 @@ class CharacterController extends Controller
     {
         
         $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
 
-        if (!$character) {
-            return response()->json(['message' => 'Non trouvé'], 404);
-        }
 
         $character->affinity = $request->input('affinity');
         $character->spirit_level = $request->input('spirit_level');
@@ -117,12 +113,9 @@ class CharacterController extends Controller
     {
         
         $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
 
-        if (!$character) {
-            return response()->json(['message' => 'Non trouvé'], 404);
-        }
 
-        
         $newXP = $character->xp + $request->input('xp');
 
         $additionalLevels = 0;
@@ -145,13 +138,71 @@ class CharacterController extends Controller
         
         $character = Character::find($id);
 
-        if (!$character) {
-            return response()->json(['message' => 'Non trouvé'], 404);
-        }
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
 
         $character->xp -= 5;
         $character->update();
 
         return response()->json(['message' => 'Mis à jour']);
+    }
+    
+    public function pv(Request $request, $id, $action)
+    {
+        
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        $pvMax = $character->pv_max + $character->pv_bonus;
+        $newPv = $character->pv;
+
+        if ($action == 'physicalDmg'){
+            $dmg = $request->input('damageValue') - ($character->rp+$character->rp_bonus);
+            if ($dmg>0){$newPv = $character->pv - $dmg;}
+        } else if ($action == 'magicDmg'){
+            $dmg = $request->input('damageValue') - ($character->rm+$character->rm_bonus);
+            if ($dmg>0){$newPv = $character->pv - $dmg;}
+        } else if ($action == 'fullDmg'){
+            $newPv = $character->pv -  $request->input('damageValue');
+        } else if ($action == 'heal'){
+            $newPv = $character->pv + $request->input('healValue');
+            if ($newPv > $pvMax){$newPv = $pvMax;}
+        } else if ($action == 'healArmor'){
+            $newPv = $character->pv + $request->input('healValue');
+        } else if ($action == 'fullHeal'){
+            $newPv = $pvMax;
+        }
+
+        if ($newPv < 0){$newPv = 0;}
+
+        $character->pv = $newPv;
+
+        $character->update();
+
+        return response()->json(['message' => 'mis à jour', "pv"=> $newPv, "action" => $action]);
+    }
+    public function mainStat(Request $request, $id)
+    {
+        
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        $character->pv_max = $request->input('pv_max');
+        $character->pt_max = $request->input('pt_max');
+        $character->pe_max = $request->input('pe_max');
+        $character->rm = $request->input('rm');
+        $character->rp = $request->input('rp');
+        $character->speed = $request->input('speed');
+
+        $character->pv_bonus = $request->input('pv_bonus');
+        $character->pt_bonus = $request->input('pt_bonus');
+        $character->pe_bonus = $request->input('pe_bonus');
+        $character->rm_bonus = $request->input('rm_bonus');
+        $character->rp_bonus = $request->input('rp_bonus');
+        $character->speed_bonus = $request->input('speed_bonus');
+
+        $character->update();
+
+        return response()->json(['message' => 'mis à jour']);
     }
 }

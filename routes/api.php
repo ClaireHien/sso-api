@@ -46,6 +46,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/character/{id}/spirit',[CharacterController::class,'spirit']);
     Route::put('/character/{id}/addXP',[CharacterController::class,'addXP']);
     Route::put('/character/{id}/dead',[CharacterController::class,'dead']);
+    Route::put('/character/{id}/main-stat',[CharacterController::class,'mainStat']);
+    Route::put('/character/{id}/physical-stat',[CharacterController::class,'physicalStat']);
+    Route::put('/character/{id}/magic-stat',[CharacterController::class,'magicStat']);
+    Route::put('/character/{id}/pv/{action}',[CharacterController::class,'pv']);
 
     Route::delete('/character/{id}',[CharacterController::class,'destroy']);
     
