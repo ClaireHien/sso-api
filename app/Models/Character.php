@@ -70,11 +70,11 @@ class Character extends Model
     }
     public function skills()
     {
-        return $this->belongsToMany(Skill::class);
+        return $this->belongsToMany(Skill::class)->withPivot('upgrade_unlock','ultimate_upgrade_unlock');
     }
     public function fight_skills()
     {
-        return $this->belongsToMany(FightSkill::class);
+        return $this->belongsToMany(FightSkill::class)->withPivot('upgrade_unlock');
     }
     public function items()
     {
