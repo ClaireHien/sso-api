@@ -15,4 +15,7 @@ class Item extends Model
         'quantity',
         'description'
     ];
+    public function character(){
+        return $this->belongsTo(Character::class);
+    }
 }

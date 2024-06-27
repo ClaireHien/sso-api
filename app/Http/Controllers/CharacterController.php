@@ -57,6 +57,8 @@ class CharacterController extends Controller
         $character->jewelry2_description = '';
         $character->stone2_name = '';
         $character->stone2_description = '';
+        $character->money = 100;
+        $character->star = 1;
         $character->user_id = $userId;
         $character->group_id = $request->input('group_id');
         $character->spirit_id = $request->input('spirit_id');
@@ -79,7 +81,7 @@ class CharacterController extends Controller
     
     public function show($id)
     {
-        return Character::with('user','group.world','spirit','skills', 'fight_skills','items','materials','neutral_skills','statistics','statuses','trees.range','trees.typeDamage', 'trees.skills.TypeSkill', 'craftSkills.craft','personnalSkills')->find($id);
+        return Character::with('user','group.world','spirit','skills', 'fight_skills','items','materials.craftTables.craft','materials.typeMaterial','materials.materialTable','neutral_skills','statistics','statuses','trees.range','trees.typeDamage', 'trees.skills.TypeSkill','trees.typeTree','trees.skills.statistics','trees.statistics','trees.skills.statuses','trees.statuses', 'craftSkills.craft','personnalSkills')->find($id);
     }
 
     public function global(Request $request, $id)

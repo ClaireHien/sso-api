@@ -78,7 +78,7 @@ class Character extends Model
     }
     public function items()
     {
-        return $this->belongsToMany(Item::class);
+        return $this->hasMany(Item::class);
     }
     public function materials()
     {

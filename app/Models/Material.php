@@ -22,7 +22,10 @@ class Material extends Model
         return $this->belongsTo(TypeMaterial::class);
     }
     
-    public function materialTables(){
+    public function materialTable(){
         return $this->hasOne(MaterialTable::class);
+    }
+    public function craftTables(){
+        return $this->hasMany(CraftTable::class);
     }
 }

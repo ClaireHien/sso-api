@@ -26,3 +26,4 @@ class CraftTable extends Model
         return $this->belongsTo(Material::class);
     }
 }
+ 

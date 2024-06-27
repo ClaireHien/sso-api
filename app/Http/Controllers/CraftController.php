@@ -28,7 +28,7 @@ class CraftController extends Controller
 
     public function material()
     {
-        return Material::with('typeMaterial','materialTables')
+        return Material::with('typeMaterial','materialTable')
         ->where('display', 1)
         ->get();
     }
