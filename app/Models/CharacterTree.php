@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CharacterTree extends Model
 {
     
+    protected $table = 'character_tree';
     use HasFactory;
     
     public $timestamps = false;

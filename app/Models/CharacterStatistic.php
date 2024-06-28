@@ -9,6 +9,7 @@ class CharacterStatistic extends Model
 {
     use HasFactory;
     
+    protected $table = 'character_statistic';
     public $timestamps = false;
     protected $fillable = [
         'character_id', 

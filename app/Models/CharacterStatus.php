@@ -9,6 +9,7 @@ class CharacterStatus extends Model
 {
     use HasFactory;
     
+    protected $table = 'character_status';
     public $timestamps = false;
     protected $fillable = [
         'character_id', 

@@ -4,6 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Character;
+use App\Models\CharacterFightSkill;
+use App\Models\CharacterSkill;
+use App\Models\CharacterTree;
+use App\Models\CharacterMaterial;
+use App\Models\CharacterStatus;
+use App\Models\Item;
+use App\Models\Tree;
+use App\Models\CharacterStatistic;
 
 class CharacterController extends Controller
 {
@@ -15,8 +23,8 @@ class CharacterController extends Controller
 
         $character = new Character();
         $character->name = $request->input('name');
-        $character->description = '';
-        $character->image = '';
+        $character->description = "Petit lapin des prairies ~";
+        $character->image = 'https://i.imgur.com/ANHuTWP.png';
         $character->level = 0;
         $character->xp = 0;
         $character->pc = 0;
@@ -59,6 +67,7 @@ class CharacterController extends Controller
         $character->stone2_description = '';
         $character->money = 100;
         $character->star = 1;
+        $character->free_stat = 20;
         $character->user_id = $userId;
         $character->group_id = $request->input('group_id');
         $character->spirit_id = $request->input('spirit_id');
@@ -74,6 +83,35 @@ class CharacterController extends Controller
         $character->trees()->attach($request->input('magic_id'), ['innate' => 1, 'ultimate_unlock' => 0]);
         $character->trees()->attach($request->input('weapon_id'), ['innate' => 1, 'ultimate_unlock' => 0]);
 
+        
+        $treeMagic = Tree::find($request->input('magic_id'));
+        if (!$treeMagic) {return response()->json(['message' => 'Arbre non trouvé'], 404);}
+        $statistics = $treeMagic->statistics;
+
+        foreach ($statistics as $statistic) {
+            $characterStatistic = CharacterStatistic::where('character_id', $characterId)
+                ->where('statistic_id', $statistic->id)
+                ->first();
+
+            if ($characterStatistic) {
+                $characterStatistic->value += 10;
+                $characterStatistic->save();
+            }
+        };
+        $treeWeapon = Tree::find($request->input('weapon_id'));
+        if (!$treeWeapon) {return response()->json(['message' => 'Arbre non trouvé'], 404);}
+        $statistics = $treeWeapon->statistics;
+
+        foreach ($statistics as $statistic) {
+            $characterStatistic = CharacterStatistic::where('character_id', $characterId)
+                ->where('statistic_id', $statistic->id)
+                ->first();
+
+            if ($characterStatistic) {
+                $characterStatistic->value += 10;
+                $characterStatistic->save();
+            }
+        };
 
         return response()->json(['message' => 'Personnage crée avec succès', 'characterName' => $characterName, 'characterId' => $characterId]);
     
@@ -183,6 +221,17 @@ class CharacterController extends Controller
 
         return response()->json(['message' => 'mis à jour', "pv"=> $newPv, "action" => $action]);
     }
+    public function pvStatus($id, $pv)
+    {
+        
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        $character->pv = $pv;
+        $character->update();
+
+        return response()->json(['message' => 'mis à jour']);
+    }
     public function mainStat(Request $request, $id)
     {
         
@@ -207,4 +256,206 @@ class CharacterController extends Controller
 
         return response()->json(['message' => 'mis à jour']);
     }
+    
+    public function star($id,$star)
+    {
+        
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        $character->star = $star;
+        $character->update();
+
+        return response()->json(['message' => 'mis à jour']);
+    }
+    public function money($id,$money)
+    {
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        $character->money = $money;
+        $character->update();
+
+        return response()->json(['message' => 'mis à jour']);
+    }
+
+    public function upgradeFight($id,$idSkill){
+        $characterFightSkill = CharacterFightSkill::where('character_id', $id)
+            ->where('fight_skill_id', $idSkill)
+            ->first();
+
+        if (!$characterFightSkill) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        $characterFightSkill->upgrade_unlock = 1;
+        $characterFightSkill->update();
+        
+        $this->pcCost(2,$id);
+
+        return response()->json(['message' => 'mis à jour']);
+
+    }
+
+    public function updateSkill($id,$type,$idSkill){
+
+        if($type=='new'){
+            $pcCost = 1;
+            $characterSkill = CharacterSkill::create([
+                'character_id' => $id,
+                'skill_id' => $idSkill,
+                'upgrade_unlock' => 0,
+                'ultimate_upgrade_unlock' => 0
+            ]);
+            $this->pcCost(1,$id);
+
+        } else if($type=='upgrade'){
+            $characterSkill = CharacterSkill::where('character_id', $id)
+            ->where('skill_id', $idSkill)
+            ->first();
+            if (!$characterSkill) {return response()->json(['message' => 'Non trouvé'], 404);}
+            
+            $characterSkill->upgrade_unlock = 1;
+            $characterSkill->update();
+            $this->pcCost(2,$id);
+
+        } else if($type=='ultimate_upgrade'){
+            $characterSkill = CharacterSkill::where('character_id', $id)
+            ->where('skill_id', $idSkill)
+            ->first();
+            if (!$characterSkill) {return response()->json(['message' => 'Non trouvé'], 404);}
+            
+            $characterSkill->ultimate_upgrade_unlock = 1;
+            $characterSkill->update();
+            $this->pcCost(3,$id);
+            
+        } else if($type=='ultimate'){
+            $characterTree = CharacterTree::where('character_id', $id)
+            ->where('tree_id', $idSkill)
+            ->first();
+            if (!$characterTree) {return response()->json(['message' => 'Non trouvé'], 404);}
+            
+            $characterTree->ultimate_unlock = 1;
+            $characterTree->update();
+            $this->pcCost(5,$id);
+        }
+
+        return response()->json(['message' => 'mis à jour']);
+
+    }
+    
+    public function inventoryQte($id,$type,$idItem,$addSub){
+
+        if($type=='material'){
+            
+            if ($addSub == 'add' || $addSub == 'create'){
+                
+                $characterMaterial = new CharacterMaterial();
+                $characterMaterial->character_id = $id;
+                $characterMaterial->material_id = $idItem;
+                
+                $characterMaterial->save();
+
+            }  else {
+                $characterMaterial = CharacterMaterial::where('character_id', $id)
+                ->where('material_id', $idItem)
+                ->first();
+                if (!$characterMaterial) {return response()->json(['message' => 'Non trouvé'], 404);}
+                $characterMaterial->delete();
+            }
+            
+        } else if($type=='item'){
+            
+            $item = Item::find($idItem);
+            if (!$item) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+            if ($addSub == 'add'){
+                $item->quantity+=1;
+                $item->update();
+            } else {
+                if($item->quantity > 1) {
+                    $item->quantity-=1;
+                    $item->update();
+                } else{
+                    $item->delete();
+                }
+            };
+            
+        }
+
+        return response()->json(['message' => 'mis à jour']);
+
+    }
+
+    public function addItem(Request $request, $id){
+        
+        $item = new Item();
+        $item->name = $request->input('name');
+        $item->description = $request->input('description');
+        $item->character_id = $id;
+        $item->quantity = 1;
+        
+        $item->save();
+    }
+
+
+    private function pcCost($cost,$id){
+        
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        $character->pc -= $cost;
+        $character->update();
+
+        return response()->json(['message' => 'mis à jour']);
+
+
+    }
+
+    
+    public function status($id,$type,$idStatus){
+
+        if($type=='add'){
+            
+            $characterStatus = CharacterStatus::where('character_id', $id)
+            ->where('status_id', $idStatus)
+            ->first();
+            if (!$characterStatus) {return response()->json(['message' => 'Non trouvé'], 404);}
+            $characterStatus->number += 1;
+
+            if($idStatus == 4 && $characterStatus->number == 3){
+                $character = Character::find($id);
+                if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+                $character->pv -= 10;
+                $character->update();
+                $characterStatus->delete();
+            } else {
+                $characterStatus->update();
+            }
+            
+        } else if($type=='minus'){
+            $characterStatus = CharacterStatus::where('character_id', $id)
+            ->where('status_id', $idStatus)
+            ->first();
+            if (!$characterStatus) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+            $characterStatus->number -= 1;
+
+            if ($characterStatus->number > 0){
+                $characterStatus->update();
+            } else {
+                $characterStatus->delete();
+            }
+            
+        } else if ($type=='new'){
+            $characterStatus = new CharacterStatus();
+            $characterStatus->character_id = $id;
+            $characterStatus->status_id = $idStatus;
+            $characterStatus->number=1;
+            $characterStatus->save();
+        };
+
+        return response()->json(['message' => 'mis à jour']);
+
+    }
+
+
 }

@@ -9,6 +9,7 @@ class CharacterNeutralSkill extends Model
 {
     use HasFactory;
     
+    protected $table = 'character_neutral_skill';
     public $timestamps = false;
     protected $fillable = [
         'character_id', 

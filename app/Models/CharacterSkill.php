@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CharacterSkill extends Model
 {
+    protected $table = 'character_skill';
     use HasFactory;
     
     public $timestamps = false;

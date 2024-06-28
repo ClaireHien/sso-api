@@ -50,6 +50,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/character/{id}/physical-stat',[CharacterController::class,'physicalStat']);
     Route::put('/character/{id}/magic-stat',[CharacterController::class,'magicStat']);
     Route::put('/character/{id}/pv/{action}',[CharacterController::class,'pv']);
+    Route::put('/character/{id}/pv-status/{pv}',[CharacterController::class,'pvStatus']);
+    Route::put('/character/{id}/star/{star}',[CharacterController::class,'star']);
+    Route::put('/character/{id}/money/{money}',[CharacterController::class,'money']);
+    Route::put('/character/{id}/upgrade-fight/{idSkill}',[CharacterController::class,'upgradeFight']);
+    Route::put('/character/{id}/update-skill/{type}/{idSkill}',[CharacterController::class,'updateSkill']);
+    Route::put('/character/{id}/inventory/{type}/{idItem}/{addSub}',[CharacterController::class,'inventoryQte']);
+    Route::put('/character/{id}/add-item',[CharacterController::class,'addItem']);
+    Route::put('/character/{id}/status/{type}/{idStatus}',[CharacterController::class,'status']);
 
     Route::delete('/character/{id}',[CharacterController::class,'destroy']);
     

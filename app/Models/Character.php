@@ -96,7 +96,7 @@ class Character extends Model
     
     public function statuses()
     {
-        return $this->belongsToMany(Status::class);
+        return $this->belongsToMany(Status::class)->withPivot('number');
     }
     public function trees()
     {
