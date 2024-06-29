@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Character;
 use App\Models\CharacterFightSkill;
+use App\Models\CharacterCraftSkill;
+use App\Models\CharacterNeutralSkill;
 use App\Models\CharacterSkill;
 use App\Models\CharacterTree;
 use App\Models\CharacterMaterial;
@@ -12,11 +14,11 @@ use App\Models\CharacterStatus;
 use App\Models\Item;
 use App\Models\Tree;
 use App\Models\CharacterStatistic;
+use App\Models\Statistic;
 
 class CharacterController extends Controller
 {
-    public function store(Request $request, $userId)
-    {
+    public function store(Request $request, $userId){
         $request->validate([
             'name' => 'required|string|max:255'
         ]);
@@ -117,13 +119,11 @@ class CharacterController extends Controller
     
     }
     
-    public function show($id)
-    {
+    public function show($id){
         return Character::with('user','group.world','spirit','skills', 'fight_skills','items','materials.craftTables.craft','materials.typeMaterial','materials.materialTable','neutral_skills','statistics','statuses','trees.range','trees.typeDamage', 'trees.skills.TypeSkill','trees.typeTree','trees.skills.statistics','trees.statistics','trees.skills.statuses','trees.statuses', 'craftSkills.craft','personnalSkills')->find($id);
     }
 
-    public function global(Request $request, $id)
-    {
+    public function global(Request $request, $id){
         
         $character = Character::find($id);
         if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
@@ -136,8 +136,8 @@ class CharacterController extends Controller
         $character->update();
         return response()->json(['message' => 'Mis à jour']);
     }
-    public function spirit(Request $request, $id)
-    {
+
+    public function spirit(Request $request, $id){
         
         $character = Character::find($id);
         if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
@@ -149,8 +149,8 @@ class CharacterController extends Controller
         $character->update();
         return response()->json(['message' => 'Mis à jour']);
     }
-    public function addXP(Request $request, $id)
-    {
+
+    public function addXP(Request $request, $id){
         
         $character = Character::find($id);
         if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
@@ -173,8 +173,8 @@ class CharacterController extends Controller
 
         return response()->json(['message' => $character->xp, "xp"=> $request->input('xp')]);
     }
-    public function dead($id)
-    {
+
+    public function dead($id){
         
         $character = Character::find($id);
 
@@ -187,8 +187,7 @@ class CharacterController extends Controller
         return response()->json(['message' => 'Mis à jour']);
     }
     
-    public function pv(Request $request, $id, $action)
-    {
+    public function pv(Request $request, $id, $action){
         
         $character = Character::find($id);
         if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
@@ -221,8 +220,8 @@ class CharacterController extends Controller
 
         return response()->json(['message' => 'mis à jour', "pv"=> $newPv, "action" => $action]);
     }
-    public function pvStatus($id, $pv)
-    {
+
+    public function pvStatus($id, $pv){
         
         $character = Character::find($id);
         if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
@@ -232,8 +231,8 @@ class CharacterController extends Controller
 
         return response()->json(['message' => 'mis à jour']);
     }
-    public function mainStat(Request $request, $id)
-    {
+
+    public function mainStat(Request $request, $id){
         
         $character = Character::find($id);
         if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
@@ -257,8 +256,7 @@ class CharacterController extends Controller
         return response()->json(['message' => 'mis à jour']);
     }
     
-    public function star($id,$star)
-    {
+    public function star($id,$star){
         
         $character = Character::find($id);
         if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
@@ -268,8 +266,8 @@ class CharacterController extends Controller
 
         return response()->json(['message' => 'mis à jour']);
     }
-    public function money($id,$money)
-    {
+
+    public function money($id,$money){
         $character = Character::find($id);
         if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
 
@@ -406,8 +404,46 @@ class CharacterController extends Controller
         $character->update();
 
         return response()->json(['message' => 'mis à jour']);
+    }
 
+    public function stuff(Request $request,$id){
+        
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
 
+        if($request->input('weapon_name')!== null) {$character->weapon_name = $request->input('weapon_name');};
+         if($request->input('weapon_description')!== null) {$character->weapon_description = $request->input('weapon_description');};
+
+         if($request->input('armor_name')!== null) {$character->armor_name = $request->input('armor_name');};
+         if($request->input('armor_description')!== null) {$character->armor_description = $request->input('armor_description');};
+
+         if($request->input('clothe1_name')!== null) {$character->clothe1_name = $request->input('clothe1_name');};
+         if($request->input('clothe1_description')!== null) {$character->clothe1_description = $request->input('clothe1_description');};
+
+         if($request->input('clothe2_name')!== null) {$character->clothe2_name = $request->input('clothe2_name');};
+         if($request->input('clothe2_description')!== null) {$character->clothe2_description = $request->input('clothe2_description');};
+
+         if($request->input('ornament1_name')!== null) {$character->ornament1_name = $request->input('ornament1_name');};
+         if($request->input('ornament1_description')!== null) {$character->ornament1_description = $request->input('ornament1_description');};
+
+         if($request->input('ornament2_name')!== null) {$character->ornament2_name = $request->input('ornament2_name');};
+         if($request->input('ornament2_description')!== null) {$character->ornament2_description = $request->input('ornament2_description');};
+
+         if($request->input('jewelry1_name')!== null) {$character->jewelry1_name = $request->input('jewelry1_name');};
+         if($request->input('jewelry1_description')!== null) {$character->jewelry1_description = $request->input('jewelry1_description');};
+
+         if($request->input('jewelry2_name')!== null) {$character->jewelry2_name = $request->input('jewelry2_name');};
+         if($request->input('jewelry2_description')!== null) {$character->jewelry2_description = $request->input('jewelry2_description');};
+
+         if($request->input('stone1_name')!== null) {$character->stone1_name = $request->input('stone1_name');};
+         if($request->input('stone1_description')!== null) {$character->stone1_description = $request->input('stone1_description');};
+
+         if($request->input('stone2_name')!== null) {$character->stone2_name = $request->input('stone2_name');};
+         if($request->input('stone2_description')!== null) {$character->stone2_description = $request->input('stone2_description');};
+
+        $character->update();
+
+        return response()->json(['message' => 'mis à jour']);
     }
 
     
@@ -454,6 +490,134 @@ class CharacterController extends Controller
         };
 
         return response()->json(['message' => 'mis à jour']);
+
+    }
+
+    
+    public function statistic(Request $request,$id, $type, $pc, $free){
+
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        if ($type=="physical"){
+            
+            $statistic0 = Statistic::where('abreviation', 'FOR')->first();
+            if (!$statistic0) {return response()->json(['message' => 'Statistique non trouvée'], 404);}
+
+            $character->statistics()->updateExistingPivot($statistic0->id, [
+                'value' => $request->input('stat0'),
+                'bonus' => $request->input('stat0_bonus'),
+            ]);
+            
+            $statistic1 = Statistic::where('abreviation', 'CON')->first();
+            if (!$statistic1) {return response()->json(['message' => 'Statistique non trouvée'], 404);}
+
+            $character->statistics()->updateExistingPivot($statistic1->id, [
+                'value' => $request->input('stat1'),
+                'bonus' => $request->input('stat1_bonus'),
+            ]);
+            
+            $statistic2 = Statistic::where('abreviation', 'DEX')->first();
+            if (!$statistic2) {return response()->json(['message' => 'Statistique non trouvée'], 404);}
+
+            $character->statistics()->updateExistingPivot($statistic2->id, [
+                'value' => $request->input('stat2'),
+                'bonus' => $request->input('stat2_bonus'),
+            ]);
+            
+            $statistic3 = Statistic::where('abreviation', 'PER')->first();
+            if (!$statistic3) {return response()->json(['message' => 'Statistique non trouvée'], 404);}
+
+            $character->statistics()->updateExistingPivot($statistic3->id, [
+                'value' => $request->input('stat3'),
+                'bonus' => $request->input('stat3_bonus'),
+            ]);
+        } else if ($type=="magic") {
+            
+            $statistic0b = Statistic::where('abreviation', 'INT')->first();
+            if (!$statistic0b) {return response()->json(['message' => 'Statistique non trouvée'], 404);}
+
+            $character->statistics()->updateExistingPivot($statistic0b->id, [
+                'value' => $request->input('stat0'),
+                'bonus' => $request->input('stat0_bonus'),
+            ]);
+            
+            $statistic1b = Statistic::where('abreviation', 'CHA')->first();
+            if (!$statistic1b) {return response()->json(['message' => 'Statistique non trouvée'], 404);}
+
+            $character->statistics()->updateExistingPivot($statistic1b->id, [
+                'value' => $request->input('stat1'),
+                'bonus' => $request->input('stat1_bonus'),
+            ]);
+            
+            $statistic2b = Statistic::where('abreviation', 'VIV')->first();
+            if (!$statistic2b) {return response()->json(['message' => 'Statistique non trouvée'], 404);}
+
+            $character->statistics()->updateExistingPivot($statistic2b->id, [
+                'value' => $request->input('stat2'),
+                'bonus' => $request->input('stat2_bonus'),
+            ]);
+            
+            $statistic3b = Statistic::where('abreviation', 'SENSI')->first();
+            if (!$statistic3b) {return response()->json(['message' => 'Statistique non trouvée'], 404);}
+
+            $character->statistics()->updateExistingPivot($statistic3b->id, [
+                'value' => $request->input('stat3'),
+                'bonus' => $request->input('stat3_bonus'),
+            ]);
+
+
+        }
+
+
+        $character->pc=$pc;
+        $character->free_stat=$free;
+        $character->update();
+
+        return response()->json(['message' => 'mis à jour']);
+    }
+
+    
+
+    public function addTree($id,$treeId){
+
+        $characterStatus = new CharacterTree();
+        $characterStatus->character_id = $id;
+        $characterStatus->tree_id = $treeId;
+        $characterStatus->innate=0;
+        $characterStatus->ultimate_unlock=0;
+        $characterStatus->save();
+    
+        $this->pcCost(1,$id);
+
+        return response()->json(['message' => 'mis à jour']);
+
+    }
+
+    public function addNeutralSkill($id,$type, $idSkill){
+
+        if($type=='neutral'){
+            $newSkill = new CharacterNeutralSkill();
+            $newSkill->character_id = $id;
+            $newSkill->neutral_skill_id = $idSkill;
+            $newSkill->save();
+        } else if($type=='craft'){
+            $newSkill = new CharacterCraftSkill();
+            $newSkill->character_id = $id;
+            $newSkill->craft_skill_id = $idSkill;
+            $newSkill->save();
+        } else if($type=='fight'){
+            $newSkill = new CharacterFightSkill();
+            $newSkill->character_id = $id;
+            $newSkill->fight_skill_id = $idSkill;
+            $newSkill->upgrade_unlock = 0;
+            $newSkill->save();
+        }
+
+    
+        $this->pcCost(1,$id);
+
+        return response()->json(['message' => 'mis à jour','type'=>$type, 'id'=>$idSkill]);
 
     }
 

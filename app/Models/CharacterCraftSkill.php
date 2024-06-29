@@ -13,7 +13,7 @@ class CharacterCraftSkill extends Model
     public $timestamps = false;
     protected $fillable = [
         'character_id', 
-        'craft_id'
+        'craft_skill_id'
     ];
 
     
