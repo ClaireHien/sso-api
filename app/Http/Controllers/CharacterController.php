@@ -463,7 +463,7 @@ class CharacterController extends Controller
                 $character->pv -= 10;
                 $character->update();
                 $characterStatus->delete();
-            } else {
+            } else if ($idStatus != 2 || $characterStatus->number < 7) {
                 $characterStatus->update();
             }
             
