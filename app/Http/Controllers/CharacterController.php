@@ -123,6 +123,19 @@ class CharacterController extends Controller
         return Character::with('user','group.world','spirit','skills', 'fight_skills','items','materials.craftTables.craft','materials.typeMaterial','materials.materialTable','neutral_skills','statistics','statuses','trees.range','trees.typeDamage', 'trees.skills.TypeSkill','trees.typeTree','trees.skills.statistics','trees.statistics','trees.skills.statuses','trees.statuses', 'craftSkills.craft','personnalSkills')->find($id);
     }
 
+    
+    public function destroy($id){
+        
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        $character->delete();
+
+        return response()->json(['message' => 'supprimé']);
+    }
+
+
+
     public function global(Request $request, $id){
         
         $character = Character::find($id);
@@ -136,7 +149,7 @@ class CharacterController extends Controller
         $character->update();
         return response()->json(['message' => 'Mis à jour']);
     }
-
+/*
     public function spirit(Request $request, $id){
         
         $character = Character::find($id);
@@ -146,6 +159,16 @@ class CharacterController extends Controller
         $character->affinity = $request->input('affinity');
         $character->spirit_level = $request->input('spirit_level');
 
+        $character->update();
+        return response()->json(['message' => 'Mis à jour']);
+    }
+    */
+    public function updateAff($id, $aff){
+        
+        $character = Character::find($id);
+        if (!$character) {return response()->json(['message' => 'Non trouvé'], 404);}
+
+        $character->affinity = $aff;
         $character->update();
         return response()->json(['message' => 'Mis à jour']);
     }

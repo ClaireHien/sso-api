@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('/character',[CharacterController::class,'index']);
     Route::put('/character/{id}/global',[CharacterController::class,'global']);
-    Route::put('/character/{id}/spirit',[CharacterController::class,'spirit']);
+    //Route::put('/character/{id}/spirit',[CharacterController::class,'spirit']);
     Route::put('/character/{id}/addXP',[CharacterController::class,'addXP']);
     Route::put('/character/{id}/dead',[CharacterController::class,'dead']);
     Route::put('/character/{id}/stuff',[CharacterController::class,'stuff']);
@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/character/{id}/statistic/{type}/{pc}/{free}',[CharacterController::class,'statistic']);
     Route::put('/character/{id}/add-tree/{treeId}',[CharacterController::class,'addTree']);
     Route::put('/character/{id}/add-neutral-skill/{type}/{idSkill}',[CharacterController::class,'addNeutralSkill']);
+    Route::put('/character/{id}/update-aff/{aff}',[CharacterController::class,'updateAff']);
 
     Route::delete('/character/{id}',[CharacterController::class,'destroy']);
     
