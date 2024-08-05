@@ -35,12 +35,12 @@ class CharacterController extends Controller
         $character->pv = 10;
         $character->pv_bonus = 0;
         $character->pv_max = 10;
-        $character->pe = 2;
+        $character->pe = 1;
         $character->pe_bonus = 0;
-        $character->pe_max = 2;
-        $character->pt = 2;
+        $character->pe_max = 1;
+        $character->pt = 1;
         $character->pt_bonus = 0;
-        $character->pt_max = 2;
+        $character->pt_max = 1;
         $character->speed = 3;
         $character->speed_bonus = 0;
         $character->rp = 0;
@@ -69,7 +69,7 @@ class CharacterController extends Controller
         $character->stone2_description = '';
         $character->money = 100;
         $character->star = 1;
-        $character->free_stat = 20;
+        $character->free_stat = 50;
         $character->user_id = $userId;
         $character->group_id = $request->input('group_id');
         $character->spirit_id = $request->input('spirit_id');
@@ -96,10 +96,16 @@ class CharacterController extends Controller
                 ->first();
 
             if ($characterStatistic) {
-                $characterStatistic->value += 10;
+                if ($request->input('magic_id') == 42){
+                    $characterStatistic->value += 5;
+                } else {
+                    $characterStatistic->value += 10;
+                }
                 $characterStatistic->save();
             }
         };
+
+
         $treeWeapon = Tree::find($request->input('weapon_id'));
         if (!$treeWeapon) {return response()->json(['message' => 'Arbre non trouvé'], 404);}
         $statistics = $treeWeapon->statistics;
@@ -110,7 +116,11 @@ class CharacterController extends Controller
                 ->first();
 
             if ($characterStatistic) {
-                $characterStatistic->value += 10;
+                if ($request->input('weapon_id') == 26){
+                    $characterStatistic->value += 5;
+                } else {
+                    $characterStatistic->value += 10;
+                }
                 $characterStatistic->save();
             }
         };
